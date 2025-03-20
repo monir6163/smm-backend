@@ -32,6 +32,7 @@ const register = async (payload: TUser) => {
 };
 
 const signin = async (payload: TSigninUser) => {
+  console.log('payload', payload);
   const user = await prisma.user.findUnique({
     where: {
       email: payload?.email,
@@ -49,7 +50,7 @@ const signin = async (payload: TSigninUser) => {
   }
 
   const { password, ...userData } = user;
-
+  console.log('userData', userData);
   return { user: userData };
 };
 
