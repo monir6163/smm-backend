@@ -55,11 +55,12 @@ model Session {
 }
 
 model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
+  id      String   @id @default(cuid())
+  token   String   @unique
+  expires DateTime
+  email   String
 
-  @@unique([identifier, token])
+  @@unique([email, token])
 }
 
 model ApiKey {

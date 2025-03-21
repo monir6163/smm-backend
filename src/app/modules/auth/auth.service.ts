@@ -32,7 +32,6 @@ const register = async (payload: TUser) => {
 };
 
 const signin = async (payload: TSigninUser) => {
-  console.log('payload', payload);
   const user = await prisma.user.findUnique({
     where: {
       email: payload?.email,
@@ -50,8 +49,37 @@ const signin = async (payload: TSigninUser) => {
   }
 
   const { password, ...userData } = user;
-  console.log('userData', userData);
   return { user: userData };
 };
 
-export const AuthServices = { register, signin };
+const getUserByEmail = async (email: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
+  }
+
+  const { password: _, ...userData } = user;
+  return userData;
+};
+
+const getUserById = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
+  }
+
+  const { password: _, ...userData } = user;
+  return userData;
+};
+
+export const AuthServices = { register, signin, getUserByEmail, getUserById };

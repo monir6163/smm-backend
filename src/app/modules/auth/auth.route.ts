@@ -16,4 +16,16 @@ router.post(
   AuthController.signin,
 );
 
+router.get(
+  '/getuserbyemail/:email',
+  // auth('admin'),
+  AuthController.getUserByEmail,
+);
+
+router.get(
+  '/getuserbyid/:id',
+  // auth('admin'),
+  AuthController.getUserById,
+);
+
 export const AuthRoutes = router;
